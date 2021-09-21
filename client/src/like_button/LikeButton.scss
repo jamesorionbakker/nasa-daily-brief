@@ -1,0 +1,83 @@
+.like-btn-container {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+
+    button {
+        background: none;
+        border: none;
+        outline: none;
+    }
+    i {
+        font-size: 2.8em;
+        text-shadow: 0px 0px 5px hsla(0, 0%, 0%, 0.3);
+    }
+}
+
+@keyframes unlikedHover {
+    from {
+        color: hsl(0, 0%, 70%);
+        transform: scale(1);
+    }
+    to {
+        color: hsl(0, 70%, 60%);
+        transform: scale(1.2);
+    }
+}
+@keyframes unlikedUnHover {
+    from {
+        color: hsl(0, 70%, 60%);
+
+        transform: scale(1.2);
+    }
+    to {
+        color: hsl(0, 0%, 70%);
+        transform: scale(1);
+    }
+}
+@keyframes likedHover {
+    0% {
+        transform: scale(1);
+        color: hsl(0, 70%, 40%);
+    }
+    50% {
+        transform: scale(0.9);
+
+    }
+    100% {
+        color: hsl(0, 80%, 30%);
+        transform: scale(1.2);
+    }
+}
+@keyframes likedUnHover {
+    from {
+        color: hsl(0, 80%, 30%);
+        transform: scale(1.2);
+    }
+    to {
+        color: hsl(0, 70%, 40%);
+        transform: scale(1);
+    }
+}
+button.liked {
+    animation-name: likedUnHover;
+    animation-duration: 250ms;
+    color: hsl(0, 70%, 40%);
+}
+button.liked:hover {
+    animation-name: likedHover;
+    animation-duration: 250ms;
+    color: hsl(0, 70%, 30%);
+    transform: scale(1.2);
+}
+button.not-liked {
+    color: hsl(0, 0%, 70%);
+    animation-name: unlikedUnHover;
+    animation-duration: 250ms;
+}
+button.not-liked:hover {
+    animation-name: unlikedHover;
+    animation-duration: 250ms;
+    color: hsl(0, 70%, 60%);
+    transform: scale(1.2);
+}
