@@ -1,6 +1,6 @@
 NASA DAILY BRIEF is a react based viewer for the Nasa Astronomy Picture of the Day (APOD) API.
 
-I built it for the shopify 2021 front end internship challenge.
+I built it for the shopify 2022 front end internship challenge.
 
 Some notable features:
 
