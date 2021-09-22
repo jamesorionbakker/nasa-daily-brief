@@ -1,4 +1,4 @@
-import * as API from '../../api.js';
+import * as API from 'components/common/api.js';
 import dayjs from 'dayjs';
 
 export const getInitialPosts = () => {

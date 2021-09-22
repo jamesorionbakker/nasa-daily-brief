@@ -17,10 +17,10 @@ export default function PhotoCard(props) {
         if (visible) return;
         setVisible(isVisible);
     };
-
     const toggleExpanded = () => {
         setExpanded(!expanded);
     };
+    
     return (
         <VisibilitySensor partialVisibility onChange={visibilityChangeHandler}>
             <div className="image-container">
@@ -30,40 +30,32 @@ export default function PhotoCard(props) {
                         <h5>
                             <em>{dayjs(post.date).format('MMMM DD, YYYY')}</em>
                         </h5>
-
-                        {
-                            visible && !expanded && (
-                                <TypeWriter maxDelay={40} delayMap={[{at: /(\.)/, delay: 300}]} typing={1} fixed={true}>
-                                    <span>
-                                        {_.truncate(post.explanation, {
-                                            length: 350,
-                                            separator: ' ',
-                                            omission: ' ',
-                                        })}
-                                        <button className="link" onClick={toggleExpanded} href="#">
-                                            ...Read More
-                                        </button>
-                                    </span>
-                                </TypeWriter>
-                            )
-                            // <TypeWriter typing={1} fixed={true}>
-                            //     {post.explanation.substring(0, 400) + '...'}
-                            // </TypeWriter>
-                        }
-                        {
-                            visible && expanded && (
+                        {visible && !expanded && (
+                            <TypeWriter
+                                maxDelay={40}
+                                delayMap={[{ at: /(\.)/, delay: 300 }]}
+                                typing={1}
+                                fixed={true}>
                                 <span>
-                                    {post.explanation}{' '}
+                                    {_.truncate(post.explanation, {
+                                        length: 350,
+                                        separator: ' ',
+                                        omission: ' ',
+                                    })}
                                     <button className="link" onClick={toggleExpanded} href="#">
-                                        ...Show Less
+                                        ...Read More
                                     </button>
                                 </span>
-                            )
-                            // <TypeWriter typing={1} fixed={true}>
-                            //     {post.explanation.substring(0, 400) + '...'}
-                            // </TypeWriter>
-                        }
-                        
+                            </TypeWriter>
+                        )}
+                        {visible && expanded && (
+                            <span>
+                                {post.explanation}{' '}
+                                <button className="link" onClick={toggleExpanded} href="#">
+                                    ...Show Less
+                                </button>
+                            </span>
+                        )}
                     </Col>
                     <Col xs={12} md={8}>
                         <img
@@ -71,7 +63,14 @@ export default function PhotoCard(props) {
                             src={post.thumbnail_url || post.url}
                             alt={post.title}
                         />
-                        <small>{`image copyright ${post.copyright}`} {post.hdurl && <a href={post.hdurl} target="_blank">full size image</a>}</small>
+                        <small>
+                            {`image copyright ${post.copyright}`}{' '}
+                            {post.hdurl && (
+                                <a href={post.hdurl} rel='noreferrer' target="_blank">
+                                    full size image
+                                </a>
+                            )}
+                        </small>
                     </Col>
                 </Row>
             </div>

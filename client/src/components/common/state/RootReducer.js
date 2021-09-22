@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux'
-import likeReducer from '../like_button/state/LikeReducer'
-import postsReducer from '../posts/state/PostsReducer'
+import likeReducer from 'components/like_button/state/LikeReducer'
+import postsReducer from 'components/posts/state/PostsReducer'
 
 
 const rootReducer = combineReducers({
