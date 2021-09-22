@@ -5,7 +5,7 @@ export const getInitialPosts = () => {
     return async (dispatch, getState) => {
         let startDate = getState().posts.startDate;
         let posts = await API.get(
-            `/images/?end_date=${dayjs().format('YYYY-MM-DD')}&start_date=${startDate.format(
+            `/posts/?end_date=${dayjs().format('YYYY-MM-DD')}&start_date=${startDate.format(
                 'YYYY-MM-DD'
             )}`
         );
@@ -25,11 +25,10 @@ export const getMorePosts = () => {
             type: 'POSTS/SET_LOADING_MORE'
         })
         let posts = await API.get(
-            `/images/?end_date=${requestEndDate.format(
+            `/posts/?end_date=${requestEndDate.format(
                 'YYYY-MM-DD'
             )}&start_date=${requestStartDate.format('YYYY-MM-DD')}`
         );
-
         dispatch({
             type: 'POSTS/SET_START_DATE',
             payload: requestStartDate
