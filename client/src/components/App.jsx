@@ -43,7 +43,6 @@ export default function App() {
                         return <Post key={post.date} post={post} />;
                     })}
                 {initialPostsLoaded && (
-                    
                         <Button
                             className="load-more-button"
                             onClick={() => dispatch(getMorePosts())}>
