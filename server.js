@@ -8,8 +8,7 @@ app.use(express.static('./client/build'));
 app.use(urlencoded({ extended: true }));
 
 
-
-app.get('/images/', async (req, res) => {
+app.get('/posts/', async (req, res) => {
     try {
         let startDate = req.query.start_date;
         let endDate = req.query.end_date;
@@ -21,5 +20,5 @@ app.get('/images/', async (req, res) => {
 });
 
 app.listen(process.env.PORT || 3001, () => {
-    console.log('listening on ' + process.env.PORT);
+    console.log('NASA Daily Brief Server running on',process.env.PORT);
 });
