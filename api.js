@@ -6,9 +6,6 @@ dotenv.config()
 const nextDayUNIX = (unixTime) => {
     return dayjs.unix(unixTime).add(1, 'day').unix();
 };
-const unixTimeFromString = (dateString) => {
-    return dayjs(dateString).unix();
-};
 const dateFromUnix = (unixTime) => {
     return dayjs.unix(unixTime).format('YYYY-MM-DD');
 };
