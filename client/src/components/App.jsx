@@ -1,15 +1,13 @@
 import Container from 'react-bootstrap/Container';
 import 'components/main.scss';
-import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import dayjs from 'dayjs';
 import Post from 'components/posts/Post';
 import { useInfiniteQuery } from 'react-query';
 import axios from 'axios';
+import Clock from 'components/clock/Clock';
 
 export default function App() {
     let startingPage = 0;
-    let [time, setTime] = useState(dayjs());
     let posts = useInfiniteQuery(
         'posts',
         async ({ pageParam = startingPage }) => {
@@ -23,19 +21,12 @@ export default function App() {
             getNextPageParam: (lastPage) => lastPage.nextId ?? false,
         }
     );
-    useEffect(() => {
-        let interval = setInterval(() => {
-            setTime(dayjs());
-        }, 1000);
-        return () => {
-            clearInterval(interval);
-        };
-    });
+    
     return (
         <Container fluid>
             <header>
                 <h1 className="title">NASA DAILY BRIEF</h1>
-                <h1 className="time">{time.format('h:mm:ss')}</h1>
+                <Clock/>
             </header>
             <main>
                 {!posts.isFetched && <i className="fas fa-atom fa-spin loading-icon"></i>}
