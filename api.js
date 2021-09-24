@@ -15,8 +15,8 @@ const dateFromUnix = (unixTime) => {
 const apodCache = {};
 
 export const get = async (startDate, endDate) => {
-    let startDateUNIX = unixTimeFromString(startDate);
-    let endDateUNIX = unixTimeFromString(endDate);
+    let startDateUNIX = startDate.unix();
+    let endDateUNIX = endDate.unix();
     let currentDateUNIX = startDateUNIX;
     let responseArray = [];
 
@@ -27,7 +27,7 @@ export const get = async (startDate, endDate) => {
             currentDateUNIX = nextDayUNIX(currentDateUNIX);
         } else {
             console.log('querying NASA API');
-            let apiQuery = `https://api.nasa.gov/planetary/apod?thumbs=true&start_date=${startDate}&end_date=${endDate}&api_key=${process.env.NASA_API_KEY}`;
+            let apiQuery = `https://api.nasa.gov/planetary/apod?thumbs=true&start_date=${startDate.format('YYYY-MM-DD')}&end_date=${endDate.format('YYYY-MM-DD')}&api_key=${process.env.NASA_API_KEY}`;
             let apiResponse = await axios.get(apiQuery);
             responseArray = apiResponse.data;
             responseArray.forEach((entry) => {

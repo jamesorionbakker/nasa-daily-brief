@@ -4,23 +4,25 @@ import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import dayjs from 'dayjs';
 import Post from 'components/posts/Post';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import { getInitialPosts, getMorePosts } from './posts/state/PostActions';
-import { getSavedLikes } from './like_button/state/LikeActions.js';
+import { useInfiniteQuery } from 'react-query';
+import axios from 'axios';
 
 export default function App() {
-    const dispatch = useDispatch();
-    let posts = useSelector((state) => state.posts.data);
-    let initialPostsLoaded = useSelector((state) => state.posts.initialPostsLoaded);
-    let loadingMore = useSelector((state) => state.posts.loadingMore);
+    let startingPage = 0;
     let [time, setTime] = useState(dayjs());
-
-    useEffect(() => {
-        dispatch(getInitialPosts());
-        dispatch(getSavedLikes());
-    }, []);
-
+    let posts = useInfiniteQuery(
+        'posts',
+        async ({ pageParam = startingPage }) => {
+            let { data } = await axios.get(`/posts/?page=${pageParam}`);
+            data.nextId = pageParam + 1;
+            data.previousId = pageParam > 0 ? pageParam - 1 : null;
+            return data;
+        },
+        {
+            getPreviousPageParam: (firstPage) => firstPage.previousId ?? false,
+            getNextPageParam: (lastPage) => lastPage.nextId ?? false,
+        }
+    );
     useEffect(() => {
         let interval = setInterval(() => {
             setTime(dayjs());
@@ -29,7 +31,6 @@ export default function App() {
             clearInterval(interval);
         };
     });
-
     return (
         <Container fluid>
             <header>
@@ -37,20 +38,25 @@ export default function App() {
                 <h1 className="time">{time.format('h:mm:ss')}</h1>
             </header>
             <main>
-                {!initialPostsLoaded && <i className="fas fa-atom fa-spin loading-icon"></i>}
-                {initialPostsLoaded &&
-                    posts.map((post) => {
-                        return <Post key={post.date} post={post} />;
+                {!posts.isFetched && <i className="fas fa-atom fa-spin loading-icon"></i>}
+                {posts.isFetched &&
+                    posts.data.pages.map((page) => {
+                        return page.map((post) => {
+                            return <Post key={post.date} post={post} />;
+                        });
                     })}
-                {initialPostsLoaded && (
-                        <Button
-                            className="load-more-button"
-                            onClick={() => dispatch(getMorePosts())}>
-                            {loadingMore ? 'Loading...' : 'Load More'}
-                        </Button>
+
+                {posts.isFetched && posts.hasNextPage &&(
+                    <Button
+                        className="load-more-button"
+                        onClick={() => {
+                            posts.fetchNextPage();
+                        }}>
+                        {posts.isFetchingNextPage ? 'Loading...' : 'Load More'}
+                    </Button>
                 )}
             </main>
-            {initialPostsLoaded && (
+            {posts.isFetched && (
                 <footer>Content Courtesy of NASA APOD API • Copyright 2021 James Bakker</footer>
             )}
         </Container>
