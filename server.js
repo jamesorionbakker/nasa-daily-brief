@@ -12,14 +12,13 @@ app.use(urlencoded({ extended: true }));
 app.get('/posts/', async (req, res) => {
     try {
         let page = req.query.page;
-
         let endDate = dayjs().subtract(5 * page, 'day')
         let startDate = endDate.subtract(4 , 'day');
         console.log(page, startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD'))
         let nasaRes = await api.get(startDate, endDate);
         res.json(nasaRes.reverse());
     } catch (error) {
-        //console.error(error);
+        console.error(error);
     }
 });
 
