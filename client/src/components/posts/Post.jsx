@@ -20,7 +20,7 @@ export default function PhotoCard(props) {
     const toggleExpanded = () => {
         setExpanded(!expanded);
     };
-    
+
     return (
         <VisibilitySensor partialVisibility onChange={visibilityChangeHandler}>
             <div className="image-container">
@@ -64,9 +64,9 @@ export default function PhotoCard(props) {
                             alt={post.title}
                         />
                         <small>
-                            {`image copyright ${post.copyright}`}{' '}
-                            {post.hdurl && (
-                                <a href={post.hdurl} rel='noreferrer' target="_blank">
+                            {post.copyright && `image copyright ${post.copyright} `}
+                            {post.copyright && post.hdurl && (
+                                <a href={post.hdurl} rel="noreferrer" target="_blank">
                                     full size image
                                 </a>
                             )}
