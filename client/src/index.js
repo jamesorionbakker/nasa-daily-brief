@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './components/App.jsx';
 import { Provider } from 'react-redux';
 import store from 'components/common/state/store.js';
-import { useQuery, QueryClientProvider, QueryClient } from 'react-query';
+import { QueryClientProvider, QueryClient } from 'react-query';
 
 
 
